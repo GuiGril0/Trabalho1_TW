@@ -1,0 +1,47 @@
+/* Cabeçalho */
+header {
+    background-color: white;
+    justify-content: flex-end;
+}
+h1{
+    float: left;
+}
+ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: right;
+    position: relative;
+    padding: 32px 10px;
+    text-decoration: none;
+}
+
+/* Corpo */
+body h3 {
+    margin-bottom: 2%;
+}
+
+.ofertas {
+    border: none;
+    margin-top: 5px;
+    width: 45%;
+    background: linear-gradient(to right, cyan, deepskyblue);
+}
+
+.ofertas img {
+    width: 100%;
+    float: top;
+}
+
+#oinfo h4 {
+    margin: 5%;
+}
+/* Rodapé */
+footer {
+    background: linear-gradient(to right, whitesmoke, lightgray);
+    clear: left;
+}
