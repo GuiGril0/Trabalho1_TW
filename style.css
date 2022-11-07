@@ -21,15 +21,23 @@ li {
 }
 
 /* Corpo */
-body h3 {
+body #offer {
     margin-bottom: 2%;
+    float: left;
+}
+
+body #search {
+    margin-bottom: 2%;
+    float: right;
 }
 
 .ofertas {
-    border: none;
-    margin-top: 5px;
+    border: solid;
+    margin-top: 7%;
+    position: relative;
     width: 45%;
     background: linear-gradient(to right, cyan, deepskyblue);
+
 }
 
 .ofertas img {
@@ -37,11 +45,32 @@ body h3 {
     float: top;
 }
 
-#oinfo h4 {
+.ofertas h4 {
+    margin: 5%;
+}
+
+.procuras {
+    border: solid;
+    float: right;
+    margin-top: 7%;
+    margin-left: 5%;
+    position: relative;
+    top: -2160px;
+    width: 45%;
+    background: linear-gradient(to right, cyan, deepskyblue);
+
+}
+
+.procuras img {
+    width: 100%;
+    float: top;
+}
+
+.procuras h4 {
     margin: 5%;
 }
 /* Rodapé */
 footer {
     background: linear-gradient(to right, whitesmoke, lightgray);
-    clear: left;
+    float: bottom;
 }
