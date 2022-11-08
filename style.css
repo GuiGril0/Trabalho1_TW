@@ -1,11 +1,12 @@
 /* Cabeçalho */
 header {
-    background-color: white;
-    justify-content: flex-end;
+    background: linear-gradient(to right, whitesmoke, lightgray);
 }
+
 h1{
     float: left;
 }
+
 ul{
     list-style-type: none;
     margin: 0;
@@ -21,23 +22,28 @@ li {
 }
 
 /* Corpo */
-body #offer {
+.type {
+    margin-top: 5%;
     margin-bottom: 2%;
+}
+
+.type #offer {
     float: left;
 }
 
-body #search {
-    margin-bottom: 2%;
+.type #search {
     float: right;
 }
 
+body {
+    background: linear-gradient(to right, lightblue, violet);
+}
+
 .ofertas {
-    border: solid;
+    float: left;
     margin-top: 7%;
     position: relative;
     width: 45%;
-    background: linear-gradient(to right, cyan, deepskyblue);
-
 }
 
 .ofertas img {
@@ -45,20 +51,18 @@ body #search {
     float: top;
 }
 
-.ofertas h4 {
-    margin: 5%;
+.ofertas .box {
+    background: linear-gradient(to right, cyan, deepskyblue);
+    position: relative;
+    left: -10%;
+    width: 100%;
 }
 
 .procuras {
-    border: solid;
     float: right;
     margin-top: 7%;
-    margin-left: 5%;
     position: relative;
-    top: -2160px;
     width: 45%;
-    background: linear-gradient(to right, cyan, deepskyblue);
-
 }
 
 .procuras img {
@@ -66,11 +70,14 @@ body #search {
     float: top;
 }
 
-.procuras h4 {
-    margin: 5%;
+.procuras .box {
+    background: linear-gradient(to right, cyan, deepskyblue);
+    position: relative;
+    left: 12%;
 }
+
 /* Rodapé */
 footer {
     background: linear-gradient(to right, whitesmoke, lightgray);
-    float: bottom;
+    clear: both;
 }
