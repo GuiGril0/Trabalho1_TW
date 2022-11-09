@@ -1,0 +1,15 @@
+body {
+    background-color: bisque;
+}
+
+form fieldset {
+    border: solid 4px sandybrown;
+}
+
+form fieldset ul {
+    list-style-type: none;
+}
+
+form fieldset ul li {
+    margin: 1%;
+}
