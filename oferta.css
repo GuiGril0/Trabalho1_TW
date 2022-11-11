@@ -13,3 +13,7 @@ form fieldset ul {
 form fieldset ul li {
     margin: 1%;
 }
+
+body button {
+    width: 20%;
+}
