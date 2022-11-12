@@ -1,3 +1,4 @@
+/* index.html */
 html, body{
     margin: 0;
 }
@@ -56,7 +57,7 @@ body {
     float: top;
 }
 
-.ofertas .box {
+#ofertas .box {
     background: linear-gradient(to right, cyan, deepskyblue);
     position: relative;
     left: -10%;
@@ -70,12 +71,12 @@ body {
     width: 45%;
 }
 
-.procuras img {
+#procuras img {
     width: 100%;
     float: top;
 }
 
-.procuras .box {
+#procuras .box {
     background: linear-gradient(to right, cyan, deepskyblue);
     position: relative;
     left: 12%;
