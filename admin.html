@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Área administrativa</title>
+</head>
+<body>
+<header>
+    <a href="index.html" id="homePage"> Arrenda || Procura</a>
+    <nav>
+        <ul>
+            <li><a href="procurar.html">Procurar</a></li>
+            <li><a href="form.html">Anunciar</a></li>
+            <li><a href="login.html" >Login</a></li>
+            <li><a href="admin.html">Administração</a></li>
+        </ul>
+    </nav>
+</header>
+<form action="http://alunos.di.uevora.pt/tweb/t1/gereanuncios" method="POST" onsubmit="return checkAnuncios(this)">
+    <label>Estado dos anúncios:
+        <select name="estado">
+            <option value="ativo">Ativo</option>
+            <option value="inativo">Inativo</option>
+        </select>
+    </label>
+    <input type="submit" value="Submeter">
+</form>
+
+<div id="ativo"></div>
+
+<div id="inativo"></div>
+
+<script>
+</script>
+</body>
+</html>

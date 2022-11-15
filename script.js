@@ -2,6 +2,7 @@
 
 function submission(forms) {
     var xhttp = new XMLHttpRequest();
+
     xhttp.onreadystatechange = function (){
         if(this.readyState == XMLHttpRequest.DONE){
             alert("resposta ok");
@@ -31,22 +32,21 @@ function submission(forms) {
 
 
 //função para criar uma box para anúncio
-function createBox(anuncio, src='images/house.png', href='#'){
+function createBox(anuncio, href='anuncio.html', src='images/house.png'){
     let box = document.createElement("div");
     box.classList.add("box");
 
-    const a = document.createElement("a");
-    a.href = href;
+    let a = document.createElement("a");
+    a.href = href+`?aid=${anuncio.aid}`;
     box.appendChild(a);
-
-    let info = document.createElement("div");
-    info.id = anuncio.aid;
-    a.appendChild(info);
 
     const img = document.createElement("img");
     img.src = src;
     a.appendChild(img);
 
+    let info = document.createElement("div");
+    info.id = anuncio.aid;
+    a.appendChild(info);
 
     const ul = document.createElement("ul");
 
@@ -77,7 +77,6 @@ function createBox(anuncio, src='images/house.png', href='#'){
     li = document.createElement("li");
     li.textContent = "Preço: " + anuncio.preco;
     ul.appendChild(li);
-
     info.appendChild(ul);
 
     return box;
@@ -86,7 +85,6 @@ function createBox(anuncio, src='images/house.png', href='#'){
 //função para receber os anúncios do servidor
 function getAnuncio(pesquisa) {
     var xhttp = new XMLHttpRequest();
-    event.preventDefault();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             //alert("Resposta OK");
@@ -108,11 +106,12 @@ function getAnuncio(pesquisa) {
     }
     response = response.slice(0, -1);
     xhttp.send(response);
+    return false;
 }
 
 //função para escolher os 3 anúncios mais recentes
 function orderAnuncios(data) {
-    let res = alasql("SELECT * FROM ? ORDER BY data LIMIT 3", [data]);
+    let res = alasql("select * from ? order by data desc limit 3", [data]);
     return res;
 }
 
@@ -122,11 +121,13 @@ function mainOfertas(){
     xhttp.onreadystatechange = function () {
       if(this.readyState == 4 && this.status == 200) {
           let data = JSON.parse(this.responseText);
+          console.log(data)
           data = data.resultados;
           let order = orderAnuncios(data);
+          console.log(order)
           order.forEach(function (order) {
-             document.getElementById('ofertas').append(createBox(order));
-             let anu = allAnuncio("http://alunos.di.uevora.pt/tweb/t1/anuncio?aid=" + order.aid, 0)
+              let box = createBox(order);
+              document.getElementById('ofertas').append(box);
           });
       }
     };
@@ -144,8 +145,8 @@ function mainProcuras() {
             data = data.resultados;
             let order = orderAnuncios(data);
             order.forEach(function (order) {
-                document.getElementById('procuras').append(createBox(order));
-                let anu = allAnuncio("http://alunos.di.uevora.pt/tweb/t1/anuncio?aid=" + order.aid, 1);
+                let box = createBox(order);
+                document.getElementById('procuras').append(box);
             });
         }
     };
@@ -154,36 +155,284 @@ function mainProcuras() {
     xhttp.send("tipo=procura");
 }
 
-//função que, quando se clica no anúncio, mostra os detelhes todos e permite que se mande mensagem
-/*function allAnuncio(url, tipo) {
-    let aid = url.replace("http://alunos.di.uevora.pt/tweb/t1/anuncio?aid=", "");
+//função que, quando se clica no anúncio, mostra o anúncio em tamanho maior
+function urlAnuncios(aid) {
     console.log(aid);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if(this.readyState == 4 && this.status == 200) {
           let data = JSON.parse(this.responseText);
-          data = data.resultados;
-          //console.log(data);
-          let anuncio;
-          data.forEach(function (data) {
-              if(data.aid == aid) {
-                  anuncio = data;
-              }
-          });
-          console.log(anuncio);
+          data = data.anuncio;
+          document.getElementById('anu').append(createAnuncio(data));
       }
     };
-    xhttp.open("POST", "http://alunos.di.uevora.pt/tweb/t1/roomsearch", true);
+    xhttp.open("POST","http://alunos.di.uevora.pt/tweb/t1/anuncio", true);
     xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    if(tipo == 1) {
-        xhttp.send("tipo=procura");
+    xhttp.send(aid);
+}
+
+//funçao para criar o anúncio para a página de apenas um anúncio
+function createAnuncio(anuncio, src='images/house.png') {
+    let box = document.createElement("div");
+    box.classList.add("box");
+
+    const img = document.createElement("img");
+    img.src = src;
+    box.appendChild(img);
+
+    let info = document.createElement("div");
+    info.id = anuncio.aid;
+    box.appendChild(info);
+
+    let ul = document.createElement("ul");
+    let li = document.createElement("li");
+    li.textContent = "Data: " + anuncio.data;
+    ul.appendChild(li);
+    li = document.createElement("li");
+    li.textContent = "Género: " + anuncio.genero;
+    ul.appendChild(li);
+    li = document.createElement("li");
+    li.textContent = "Detalhes: " + anuncio.detalhes;
+    ul.appendChild(li);
+    li = document.createElement("li");
+    li.textContent = "Contacto: " + anuncio.contacto;
+    ul.appendChild(li);
+    li = document.createElement("li");
+    li.textContent = "Anunciante: " + anuncio.anunciante;
+    ul.appendChild(li);
+    /*li = document.createElement("li");
+    li.textContent = anuncio.aid.value;
+    ul.appendChild(li);*/
+    li = document.createElement("li");
+    li.textContent = "Localização: " + anuncio.zona;
+    ul.appendChild(li);
+    li = document.createElement("li");
+    li.textContent = "Tipo de alojamento: " + anuncio.tipo_alojamento;
+    ul.appendChild(li);
+    li = document.createElement("li");
+    li.textContent = "Preço: " + anuncio.preco;
+    ul.appendChild(li);
+    info.appendChild(ul);
+
+    let form = document.createElement("form");
+
+    ul = document.createElement("ul");
+
+    li = document.createElement("li");
+    let input = document.createElement("input");
+    input.setAttribute("type", "number");
+    input.setAttribute("name", "aid");
+    input.setAttribute("value", anuncio.aid);
+    input.setAttribute("readOnly", true);
+    input.style.visibility = 'hidden';
+    li.appendChild(input);
+    ul.appendChild(li);
+
+    li = document.createElement("li");
+    li.textContent = "Mensagem: ";
+    input = document.createElement("input");
+    //input.id = "mensagem";
+    input.setAttribute("type", "text");
+    input.setAttribute("name", "msg");
+    li.appendChild(input);
+    ul.appendChild(li);
+
+    li = document.createElement("li");
+    li.textContent = "Remetente: ";
+    input = document.createElement("input");
+    //input.id = "remetente"
+    input.setAttribute("type", "text");
+    input.setAttribute("name", "remetente");
+    li.appendChild(input);
+    ul.appendChild(li);
+
+    input = document.createElement("input");
+    input.setAttribute("type", "submit");
+    input.setAttribute("value", "Enviar");
+    ul.appendChild(input);
+    form.appendChild(ul);
+    info.appendChild(form);
+
+
+    form.setAttribute("action", "http://alunos.di.uevora.pt/tweb/t1/contactar");
+    form.setAttribute("method", "POST");
+    form.setAttribute("onsubmit", "return submitContacto(this)");
+
+    return box;
+}
+
+//função para enviar a mensagem relativa ao anúncio escolhido
+function submitContacto(forms) {
+    var xhttp = new XMLHttpRequest();
+    let response = "";
+    xhttp.onreadystatechange = function () {
+        if(this.readyState == 4 && this.status == 200) {
+            alert("Resposta ok!");
+        }
+        for(i of forms) {
+            response += i.name + "=" + i.value + "&";
+        }
+    };
+    response = response.slice(0, -1);
+    xhttp.open("POST", "http://alunos.di.uevora.pt/tweb/t1/contactar", true);
+    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhttp.send(response);
+    return false;
+}
+
+//função que serve para o administrador receber os anúncios
+function checkAnuncios(forms) {
+    var xhttp = new XMLHttpRequest();
+    let res = "";
+    for(i of forms)
+        res += i.name + "=" + i.value + "&";
+    res = res.replace("&=Submeter&", "");
+    let tipo = res.replace("estado=", "");
+    xhttp.onreadystatechange = function () {
+      if(this.readyState == 4 && this.status == 200) {
+          let data = JSON.parse(this.responseText);
+          if(tipo == "ativo")
+              data = data.ativo;
+          else if(tipo == "inativo")
+              data = data.inativo;
+          data.forEach(function (data) {
+             getAllAnuncios(data, tipo);
+          });
+      }
+    };
+    xhttp.open("POST", "http://alunos.di.uevora.pt/tweb/t1/gereanuncios", true);
+    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhttp.send(res);
+    return false;
+}
+
+function getAllAnuncios(aid, tipo) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if(this.readyState == 4 && this.status == 200) {
+          let anuncio = JSON.parse(this.responseText);
+          anuncio = anuncio.anuncio;
+          document.getElementById(tipo).append(createBoxForAdmin(anuncio));
+      }
+    };
+    xhttp.open("POST", "http://alunos.di.uevora.pt/tweb/t1/anuncio", true);
+    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhttp.send("aid=" + aid);
+}
+
+function createBoxForAdmin(anuncio, src="images/house.png") {
+    let box = document.createElement("div");
+    box.classList.add("box");
+
+    const img = document.createElement("img");
+    img.src = src;
+    box.appendChild(img);
+
+    let info = document.createElement("div");
+    info.id = anuncio.aid;
+    box.appendChild(info);
+
+    let ul = document.createElement("ul");
+    let li = document.createElement("li");
+    li.textContent = "Data: " + anuncio.data;
+    ul.appendChild(li);
+
+    li = document.createElement("li");
+    li.textContent = "Género: " + anuncio.genero;
+    ul.appendChild(li);
+
+    li = document.createElement("li");
+    li.textContent = "Contacto: " + anuncio.contacto;
+    ul.appendChild(li);
+
+    li = document.createElement("li");
+    li.textContent = "Anunciante: " + anuncio.anunciante;
+    ul.appendChild(li);
+
+    li = document.createElement("li");
+    li.textContent = "Localização: " + anuncio.zona;
+    ul.appendChild(li);
+
+    li = document.createElement("li");
+    li.textContent = "Tipo de alojamento: " + anuncio.tipo_alojamento;
+    ul.appendChild(li);
+
+    li = document.createElement("li");
+    li.textContent = "Preço: " + anuncio.preco;
+    ul.appendChild(li);
+    info.appendChild(ul);
+
+    let form = document.createElement("form");
+
+    ul = document.createElement("ul");
+
+    li = document.createElement("li");
+    li.textContent = "aid: ";
+    let input = document.createElement("input");
+    input.setAttribute("type", "number");
+    input.setAttribute("name", "aid");
+    input.setAttribute("value", anuncio.aid);
+    li.appendChild(input);
+    ul.appendChild(li);
+
+    li = document.createElement("li");
+    li.textContent = "Estado: ";
+    let select = document.createElement("select");
+    select.setAttribute("name", "estado");
+    let option = document.createElement("option");
+    option.setAttribute("value", "ativo");
+    option.textContent = "Ativo";
+    select.appendChild(option);
+    option = document.createElement("option");
+    option.setAttribute("value", "inativo");
+    option.textContent = "Inativo";
+    select.appendChild(option);
+    li.appendChild(select);
+    ul.appendChild(li);
+
+    li = document.createElement("li");
+    li.textContent = "Descrição: ";
+    input = document.createElement("input");
+    input.setAttribute("type", "text");
+    input.setAttribute("name", "descricao");
+    input.setAttribute("value", anuncio.detalhes);
+    li.appendChild(input);
+    ul.appendChild(li);
+    form.appendChild(ul);
+
+    input = document.createElement("input");
+    input.setAttribute("type", "submit");
+    input.setAttribute("value", "Enviar");
+    form.appendChild(input);
+
+    form.setAttribute("action", "http://alunos.di.uevora.pt/tweb/t1/controloanuncio");
+    form.setAttribute("method", "POST");
+    form.setAttribute("onsubmit", "return changesByAdmin(this)");
+    box.appendChild(form);
+
+    return box;
+}
+
+function changesByAdmin(forms) {
+    var xhttp = new XMLHttpRequest();
+    let res = "";
+    for(i of forms) {
+        res += i.name + "=" + i.value + "&";
     }
-    else if(tipo == 0) {
-        xhttp.send("tipo=oferta");
-    }
-}*/
+    res = res.replace("&=Enviar&", "");
+    xhttp.onreadystatechange = function () {
+      if(this.readyState == 4 && this.status == 200) {
+          console.log(this.responseText);
+      }
+    };
+    xhttp.open("POST", "http://alunos.di.uevora.pt/tweb/t1/controloanuncio", true);
+    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhttp.send(res);
+    return false;
+}
 /*
 <div class="box">
+    <a href="anuncio.html">
         <img src="images/house.png" alt="Houses">
         <div id="pinfo2">
             <ul>
@@ -197,5 +446,6 @@ function mainProcuras() {
                 <li>Descrição</li>
             </ul>
         </div>
-    </div>
+    </a>
+</div>
  */

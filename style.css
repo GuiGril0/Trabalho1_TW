@@ -64,6 +64,15 @@ body {
     width: 100%;
 }
 
+#ofertas a {
+    text-decoration: none;
+    color: black;
+}
+
+#ofertas .box ul {
+    list-style-type: none;
+}
+
 .procuras {
     float: right;
     margin-top: 7%;
@@ -82,8 +91,19 @@ body {
     left: 12%;
 }
 
+#procuras a {
+    text-decoration: none;
+    color: black;
+}
+
+#procuras .box ul {
+    list-style-type: none;
+}
+
 /* Rodapé */
 footer {
     background: linear-gradient(to right, whitesmoke, lightgray);
     clear: both;
+    width: 100%;
+
 }
