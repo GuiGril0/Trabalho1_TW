@@ -68,23 +68,26 @@ header nav ul li a {
 body {
     background: linear-gradient(to right, lightblue, violet);
 }
-
-.ofertas {
+main{
+   margin: 5%;
+}
+img{
+    width: 100%;
+}
+#ofertas{
+    width: 45%;
     float: left;
     margin-top: 7%;
-    position: relative;
-    width: 45%;
+    clear: both;
 }
-
-.ofertas img {
-    width: 100%;
-    float: top;
+#procuras{
+    width: 45%;
+    float: right;
+    margin-top: 7%;
 }
 
 #ofertas .box {
     background: linear-gradient(to right, cyan, deepskyblue);
-    position: relative;
-    left: -10%;
     width: 100%;
 }
 
@@ -97,22 +100,13 @@ body {
     list-style-type: none;
 }
 
-.procuras {
-    float: right;
-    margin-top: 7%;
-    position: relative;
-    width: 45%;
-}
 
 #procuras img {
     width: 100%;
-    float: top;
 }
 
 #procuras .box {
     background: linear-gradient(to right, cyan, deepskyblue);
-    position: relative;
-    left: 12%;
 }
 
 #procuras a {
