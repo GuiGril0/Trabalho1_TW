@@ -7,6 +7,10 @@ header {
     background: linear-gradient(to right, whitesmoke, lightgray);
 }
 
+.dropbutton {
+    display: none;
+}
+
 h1{
     float: left;
 }
@@ -20,7 +24,7 @@ ul{
 
 #nav li {
     float: right;
-    display: inline-block;
+    /*display: flex;*/
     color: black;
     text-align: center;
     padding: 32px 10px;
@@ -101,9 +105,9 @@ body {
 }
 
 /* Rodapé */
-footer {
-    background: linear-gradient(to right, whitesmoke, lightgray);
+#ifooter {
     clear: both;
     width: 100%;
-
+    position: relative;
+    bottom: calc(15px - (2em));
 }

@@ -10,12 +10,15 @@
 <body>
 <header>
     <a href="index.html" id="homePage"> Arrenda || Procura</a>
-    <nav>
-        <ul>
+    <nav class="dropdown">
+        <img class="dropbutton" src="images/menu.svg" alt="menu" onclick="myFunction()">
+        <!---<img src="images/menu.svg" alt="menu">--->
+        <ul id="myDropdown" class="dropdown-content">
             <li><a href="procurar.html">Procurar</a></li>
             <li><a href="form.html">Anunciar</a></li>
             <li><a href="login.html" >Login</a></li>
             <li><a href="admin.html">Administração</a></li>
+            <li><a href="utilizador.html">Utilizador</a></li>
         </ul>
     </nav>
 </header>
@@ -39,5 +42,15 @@
 <div id="resultados" >
 
 </div>
+<footer id="pfooter">
+    <p> Patrocinadores:</p>
+    <div id="pat">
+        <img src="images/aston.svg" alt="aston martin">
+        <img src="images/uelogo.svg" alt="UE">
+    </div>
+
+    <hr>
+    <p>Developed by Guilherme Grilo e Helder Godinho</p>
+</footer>
 </body>
 </html>

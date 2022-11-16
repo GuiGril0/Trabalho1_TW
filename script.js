@@ -13,9 +13,9 @@ function submission(forms) {
         if(i.name == "tipo") {
             if(i.value == "oferta")
                 xhttp.open("POST", "http://alunos.di.uevora.pt/tweb/t1/registaoferta", true);
+
             else if(i.value == "procura")
                 xhttp.open("POST", "http://alunos.di.uevora.pt/tweb/t1/registaprocura", true);
-            continue;
         }
         if(i.type == 'submit') {
             continue;
@@ -23,9 +23,7 @@ function submission(forms) {
         response += i.name + '=' + i.value + "&";
     }
     response = response.slice(0, -1);
-    xhttp.open("POST", "http://alunos.di.uevora.pt/tweb/t1/registaoferta", true);
     xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    console.log(response);
     xhttp.send(response);
     return false;
 }
@@ -231,7 +229,6 @@ function createAnuncio(anuncio, src='images/house.png') {
     li = document.createElement("li");
     li.textContent = "Mensagem: ";
     input = document.createElement("input");
-    //input.id = "mensagem";
     input.setAttribute("type", "text");
     input.setAttribute("name", "msg");
     li.appendChild(input);
@@ -372,6 +369,7 @@ function createBoxForAdmin(anuncio, src="images/house.png") {
     input.setAttribute("type", "number");
     input.setAttribute("name", "aid");
     input.setAttribute("value", anuncio.aid);
+    input.setAttribute("readonly", true);
     li.appendChild(input);
     ul.appendChild(li);
 
@@ -398,12 +396,12 @@ function createBoxForAdmin(anuncio, src="images/house.png") {
     input.setAttribute("value", anuncio.detalhes);
     li.appendChild(input);
     ul.appendChild(li);
-    form.appendChild(ul);
 
     input = document.createElement("input");
     input.setAttribute("type", "submit");
     input.setAttribute("value", "Enviar");
-    form.appendChild(input);
+    ul.appendChild(input);
+    form.appendChild(ul);
 
     form.setAttribute("action", "http://alunos.di.uevora.pt/tweb/t1/controloanuncio");
     form.setAttribute("method", "POST");
@@ -422,13 +420,29 @@ function changesByAdmin(forms) {
     res = res.replace("&=Enviar&", "");
     xhttp.onreadystatechange = function () {
       if(this.readyState == 4 && this.status == 200) {
-          console.log(this.responseText);
       }
     };
     xhttp.open("POST", "http://alunos.di.uevora.pt/tweb/t1/controloanuncio", true);
     xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhttp.send(res);
     return false;
+}
+
+
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+window.onclick = function(event) {
+    if (!event.target.matches('.dropbutton')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        for (let i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
 }
 /*
 <div class="box">
