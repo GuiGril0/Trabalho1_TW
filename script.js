@@ -63,9 +63,6 @@ function createBox(anuncio, href='anuncio.html', src='images/house.png'){
     li = document.createElement("li");
     li.textContent = "Anunciante: " + anuncio.anunciante;
     ul.appendChild(li);
-    /*li = document.createElement("li");
-    li.textContent = anuncio.aid.value;
-    ul.appendChild(li);*/
     li = document.createElement("li");
     li.textContent = "Localização: " + anuncio.zona;
     ul.appendChild(li);
@@ -154,14 +151,16 @@ function mainProcuras() {
 }
 
 //função que, quando se clica no anúncio, mostra o anúncio em tamanho maior
-function urlAnuncios(aid) {
-    console.log(aid);
+function urlAnuncios(aid, value) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if(this.readyState == 4 && this.status == 200) {
           let data = JSON.parse(this.responseText);
           data = data.anuncio;
-          document.getElementById('anu').append(createAnuncio(data));
+          if(value == 0)
+              document.getElementById('anu').append(createAnuncio(data));
+          else
+              document.getElementById('anu_user').append(createAnnouncementForUser(data));
       }
     };
     xhttp.open("POST","http://alunos.di.uevora.pt/tweb/t1/anuncio", true);
@@ -254,7 +253,6 @@ function createAnuncio(anuncio, src='images/house.png') {
     form.setAttribute("action", "http://alunos.di.uevora.pt/tweb/t1/contactar");
     form.setAttribute("method", "POST");
     form.setAttribute("onsubmit", "return submitContacto(this)");
-
     return box;
 }
 
@@ -444,22 +442,107 @@ window.onclick = function(event) {
         }
     }
 }
-/*
-<div class="box">
-    <a href="anuncio.html">
-        <img src="images/house.png" alt="Houses">
-        <div id="pinfo2">
-            <ul>
-                <li>Tipo</li>
-                <li>Arrendatário</li>
-                <li>Localização</li>
-                <li>Preço</li>
-                <li>Anunciante</li>
-                <li>Contacto</li>
-                <li>Data de anúncio</li>
-                <li>Descrição</li>
-            </ul>
-        </div>
-    </a>
-</div>
- */
+
+//função para pesquisar os anúncios de tipo oferta de um utilizador em específico
+function searchUserOffers(user) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if(this.readyState == 4 && this.status == 200) {
+          let data = JSON.parse(this.responseText);
+          console.log(data);
+          data = data.resultados;
+          document.getElementById("userO").append(createH2("Ofertas"));
+        data.forEach(function (data) {
+            document.getElementById("userO").append(createBox(data, "anuncio_utilizador.html"));
+        });
+      }
+    };
+    xhttp.open("POST", "http://alunos.di.uevora.pt/tweb/t1/roomsearch");
+    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhttp.send("tipo=oferta&anunciante=" + user);
+}
+
+//função para pesquisar os anúncios de tipo procura de um utilizador em específico
+function searchUserSearch(user) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if(this.readyState == 4 && this.status == 200) {
+            let data = JSON.parse(this.responseText);
+            console.log(data);
+            data = data.resultados;
+            document.getElementById("userP").append(createH2("Procuras"));
+            data.forEach(function (data) {
+                document.getElementById("userP").append(createBox(data, "anuncio_utilizador.html"));
+            });
+        }
+    };
+    xhttp.open("POST", "http://alunos.di.uevora.pt/tweb/t1/roomsearch");
+    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhttp.send("tipo=procura&anunciante=" + user);
+}
+
+//função para escrever um elemento h2 na secção utilizador
+function createH2(tipo) {
+    let h2 = document.createElement("h2");
+    h2.innerHTML = tipo;
+    return h2;
+}
+
+//função para mostrar o anúncio desejado do utilizador
+function createAnnouncementForUser(anuncio, src="images/house.png") {
+    let box = document.createElement("div");
+    box.classList.add("box");
+
+    let img = document.createElement("img");
+    img.src = src;
+    box.appendChild(img);
+
+    let info = document.createElement("div");
+    info.id = anuncio.aid;
+    box.appendChild(info);
+
+    let ul = document.createElement("ul");
+
+    let li = document.createElement("li");
+    li.textContent = "Data: " + anuncio.data;
+    ul.appendChild(li);
+    li = document.createElement("li");
+    li.textContent = "Género: " + anuncio.genero;
+    ul.appendChild(li);
+    li = document.createElement("li");
+    li.textContent = "Detalhes: " + anuncio.detalhes;
+    ul.appendChild(li);
+    li = document.createElement("li");
+    li.textContent = "Contacto: " + anuncio.contacto;
+    ul.appendChild(li);
+    li = document.createElement("li");
+    li.textContent = "Localização: " + anuncio.zona;
+    ul.appendChild(li);
+    li = document.createElement("li");
+    li.textContent = "Tipo de alojamento: " + anuncio.tipo_alojamento;
+    ul.appendChild(li);
+    li = document.createElement("li");
+    li.textContent = "Preço: " + anuncio.preco;
+    ul.appendChild(li);
+    info.appendChild(ul);
+
+    let button = document.createElement("button");
+    button.setAttribute("type", "button");
+    button.innerHTML = "Mostrar mensagens";
+    button.addEventListener("click", openAnnouncement(anuncio.aid));
+    info.appendChild(button);
+
+    return box;
+}
+
+function openAnnouncement(aid) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if(this.readyState == 4 && this.status == 200) {
+            let data = JSON.parse(this.responseText);
+        }
+    }
+    xhttp.open("POST", "http://alunos.di.uevora.pt/tweb/t1/mensagens");
+    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhttp.send("aid=" + aid);
+}
