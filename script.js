@@ -80,10 +80,10 @@ function createBox(anuncio, href='anuncio.html', src='images/house.png'){
 //função para receber os anúncios do servidor
 function getAnuncio(pesquisa) {
     var xhttp = new XMLHttpRequest();
+    document.getElementById('resultados').replaceChildren();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            //alert("Resposta OK");
-            alert(this.responseText);
+            alert("Resposta OK");
             var data = JSON.parse(this.responseText);
             data = data.resultados;
             data.forEach(function (data) {
@@ -464,6 +464,7 @@ function searchUserOffers(user) {
 
 //função para pesquisar os anúncios de tipo procura de um utilizador em específico
 function searchUserSearch(user) {
+    console.log(user);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if(this.readyState == 4 && this.status == 200) {
