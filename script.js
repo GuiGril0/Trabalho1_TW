@@ -234,7 +234,6 @@ function createAnuncio(anuncio, src='images/house.png') {
     li = document.createElement("li");
     li.textContent = "Remetente: ";
     input = document.createElement("input");
-    //input.id = "remetente"
     input.setAttribute("type", "text");
     input.setAttribute("name", "remetente");
     li.appendChild(input);
