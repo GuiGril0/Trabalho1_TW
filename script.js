@@ -116,10 +116,8 @@ function mainOfertas(){
     xhttp.onreadystatechange = function () {
       if(this.readyState == 4 && this.status == 200) {
           let data = JSON.parse(this.responseText);
-          console.log(data)
           data = data.resultados;
           let order = orderAnuncios(data);
-          console.log(order)
           order.forEach(function (order) {
               let box = createBox(order);
               document.getElementById('ofertas').append(box);
@@ -449,7 +447,6 @@ function searchUserOffers(user) {
     xhttp.onreadystatechange = function () {
       if(this.readyState == 4 && this.status == 200) {
           let data = JSON.parse(this.responseText);
-          console.log(data);
           data = data.resultados;
           document.getElementById("userO").append(createH2("Ofertas"));
         data.forEach(function (data) {
@@ -464,12 +461,10 @@ function searchUserOffers(user) {
 
 //função para pesquisar os anúncios de tipo procura de um utilizador em específico
 function searchUserSearch(user) {
-    console.log(user);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if(this.readyState == 4 && this.status == 200) {
             let data = JSON.parse(this.responseText);
-            console.log(data);
             data = data.resultados;
             document.getElementById("userP").append(createH2("Procuras"));
             data.forEach(function (data) {
@@ -536,6 +531,7 @@ function createAnnouncementForUser(anuncio, src="images/house.png") {
     return box;
 }
 
+//função para receber as mensagens do servidor do anúncio especificado
 function openAnnouncement(aid) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
